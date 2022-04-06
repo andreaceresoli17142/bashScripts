@@ -1,0 +1,46 @@
+#!/bin/bash
+
+f_flag=''
+
+print_usage() {
+	echo "pretend this is a help page"
+}
+
+while getopts 'f' flag; do
+  case "${flag}" in
+    a) f_flag='true' ;;
+    h) print_usage
+       exit 1 ;;
+	 *) exit 1 ;;
+  esac
+done
+
+if [ $# -eq 1 ]
+  then
+    message="$1"
+  else
+    today=`date +"%d/%m/%Y %H:%M "`
+    message="automated commit $today"
+fi
+
+# If a command fails then the deploy stops
+set -e
+
+if [ !$f_flag ]
+	then
+	# Confirm with user
+	read -n 1 -p "Push to GitHub? (enter or ctrl+c):" input
+fi
+
+
+printf "\033[0;32mDeploying updates to GitHub...\033[0m\n"
+
+# Add changes to git
+git add .
+
+# Commit changes
+git commit -m "$message"
+
+# Push source
+git push origin master
+
