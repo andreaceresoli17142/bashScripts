@@ -1,5 +1,5 @@
 #!/bin/bash
 
 echo "changing bg"
-feh --bg-fill $(sh .scripts/selectFileFromDir.sh)
+feh --bg-fill $(selectFileFromDir)
 echo "bg changed"
